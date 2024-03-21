@@ -22,9 +22,9 @@ import hudson.Util
 
 SILENT = env.JOB_NAME.contains("silent")
 
-WINDOWS_NODE_LABEL = "msvc2015"
+WINDOWS_NODE_LABEL = "msvc2022"
 LINUX_NODE_LABEL = "linux && large"
-MACOS_NODE_LABEL = "kv-macos"
+MACOS_NODE_LABEL = "ventura"
 
 pipeline {
     options {
@@ -359,9 +359,9 @@ pipeline {
                     currentBuild.result = 'FAILURE'
                 }
             }
-            archiveArtifacts(allowEmptyArchive: true,
-                             artifacts: 'archived_core_dumps.tar.bz2,**/sanitizers.log.*')
-            reportWarnings()
+            // archiveArtifacts(allowEmptyArchive: true,
+            //                  artifacts: 'archived_core_dumps.tar.bz2,**/sanitizers.log.*')
+            // reportWarnings()
             cleanWs cleanWhenFailure: false,
                     cleanWhenNotBuilt: false,
                     cleanWhenUnstable: false,
@@ -371,12 +371,12 @@ pipeline {
                                [pattern: 'install', type: 'INCLUDE'],
                                [pattern: '**/CTestCostData.txt', type: 'EXCLUDE']]
         }
-        success {
-            submitGerritVerifyStatus(1)
-        }
-        failure {
-            submitGerritVerifyStatus(-1)
-        }
+        // success {
+        //     submitGerritVerifyStatus(1)
+        // }
+        // failure {
+        //     submitGerritVerifyStatus(-1)
+        // }
     }
 }
 
@@ -415,7 +415,7 @@ def getNodeLabel() {
             osLabel = LINUX_NODE_LABEL
             break;
     }
-    return "${osLabel} && ${env.BRANCH_NAME}"
+    return "${osLabel} && testing"
 }
 
 def getPatchViaGerritURL() {
