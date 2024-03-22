@@ -359,9 +359,9 @@ pipeline {
                     currentBuild.result = 'FAILURE'
                 }
             }
-            // archiveArtifacts(allowEmptyArchive: true,
-            //                  artifacts: 'archived_core_dumps.tar.bz2,**/sanitizers.log.*')
-            // reportWarnings()
+            archiveArtifacts(allowEmptyArchive: true,
+                             artifacts: 'archived_core_dumps.tar.bz2,**/sanitizers.log.*')
+            reportWarnings()
             cleanWs cleanWhenFailure: false,
                     cleanWhenNotBuilt: false,
                     cleanWhenUnstable: false,
