@@ -390,7 +390,8 @@ def getJobType() {
 def getJobName() {
     // e.g., kv_engine.ASan-UBSan.some_testing_change/master
     // we want kv_engine.ASan-UBSan.some_testing_change
-    return env.JOB_NAME.tokenize("/")[0]
+    def jobNamePart = env.JOB_NAME.tokenize("/")[0]
+    return jobNamePart.replaceFirst(/^testing-/, "")
 }
 
 def getProjectName() {
